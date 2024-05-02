@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Wz.ReservingSystem</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Wz.ReservingSystem.Domain\Wz.ReservingSystem.Domain.csproj" />
+    <ProjectReference Include="..\Wz.ReservingSystem.TestBase\Wz.ReservingSystem.TestBase.csproj" />
+  </ItemGroup>
+
+</Project>
