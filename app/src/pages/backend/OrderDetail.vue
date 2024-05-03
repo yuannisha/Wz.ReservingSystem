@@ -134,14 +134,25 @@ export default {
                 x.reservingStatus = x.reservingStatus === 0 ? "已预约" : "已取消";
             });
             console.log(this.tableData)
-            const lastItem = res.getRecordingsOutputDto[res.getRecordingsOutputDto.length - 1];
+            if(res.getRecordingsOutputDto.length == 0)
+            {
+                storedObject.buildingAndFloor = "暂无信息";
+            storedObject.classroom = "暂无信息";
+            storedObject.reservingTime = "暂无信息";
+            storedObject.reservingStatus = "暂无信息";
+            console.log(storedObject)
+            localStorage.setItem('MyInformation', JSON.stringify(storedObject));
+            }else{
+                const lastItem = res.getRecordingsOutputDto[res.getRecordingsOutputDto.length - 1];
             console.log(lastItem)
             storedObject.buildingAndFloor = lastItem.buildingAndFloor;
             storedObject.classroom = lastItem.classroom;
             storedObject.reservingTime = lastItem.reservingTime;
-            storedObject.reservingStatus = lastItem.reservingStatus;
+            storedObject.reservingStatus = lastItem.reservingStatus === "已预约" ? 0 : 1;
             console.log(storedObject)
             localStorage.setItem('MyInformation', JSON.stringify(storedObject));
+            }
+            
         }
     }
 }

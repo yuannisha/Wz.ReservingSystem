@@ -90,6 +90,8 @@ export default {
     this.bookInfo.time = storedObject.reservingTime;
     if(storedObject.reservingTime != null)
       this.bookInfo.status = storedObject.reservingStatus === 0 ? "已预约" : "已取消";
+    else if(storedObject.reservingStatus == "暂无信息")
+    this.bookInfo.status = storedObject.reservingStatus
   },
   methods: {
     // 退出登录
