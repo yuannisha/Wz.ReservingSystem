@@ -13,7 +13,7 @@ public class ReservingOperationControllers(ReservingOperationIAppservices reserv
     : AbpController, ReservingOperationIAppservices
 {
     [HttpPost("Reserving")]
-    public async Task<RegisterOrResetPasswordOutDto> Reserving(string Name, string IDNumber, string BuildingAndFloor, string Classroom, string ReservingTime)
+    public async Task<ReservingOutputDto> Reserving(string Name, string IDNumber, string BuildingAndFloor, string Classroom, string ReservingTime)
     {
         return await reservingOperationIAppservices.Reserving(Name, IDNumber, BuildingAndFloor, Classroom,
             ReservingTime);

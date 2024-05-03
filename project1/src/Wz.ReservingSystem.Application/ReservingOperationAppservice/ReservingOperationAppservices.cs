@@ -32,10 +32,11 @@ public class ReservingOperationAppservices : AbpController , ReservingOperationI
     }
     
 
-    public async Task<RegisterOrResetPasswordOutDto> Reserving(string Name, string IDNumber, string BuildingAndFloor, string Classroom,
+    public async Task<ReservingOutputDto> Reserving(string Name, string IDNumber, string BuildingAndFloor, string Classroom,
         string ReservingTime)
     {
-        var result = new RegisterOrResetPasswordOutDto() { SuccessfullyOrNot = true, Tips = "恭喜你，预约成功！" };
+        var tips = new RegisterOrResetPasswordOutDto() { SuccessfullyOrNot = true, Tips = "恭喜你，预约成功！" };
+        var result = new ReservingOutputDto();
         var ttp = ReservingTime.Split(" ");
         var weekday = ttp[2];
         var reservingTime = ttp[0] + " " + ttp[1];
@@ -50,6 +51,11 @@ public class ReservingOperationAppservices : AbpController , ReservingOperationI
 
             await _reservingCapCountRepository.InsertAsync(new ReservingCapCount(){Date = ttp[0],IDNumber = IDNumber,
                 ReservingTimesCount = 1});
+
+            result.ReservingStatus = ReservingStatusEnum.HasReserved;
+            result.ReservingTime = ReservingTime;
+            result.BuildingAndFloor = BuildingAndFloor;
+            result.Classroom = Classroom;
         }
         else
         {
@@ -62,13 +68,18 @@ public class ReservingOperationAppservices : AbpController , ReservingOperationI
 
                 await _reservingCapCountRepository.InsertAsync(new ReservingCapCount(){Date = ttp[0],IDNumber = IDNumber,
                     ReservingTimesCount = 1});
+
+                result.ReservingStatus = ReservingStatusEnum.HasReserved;
+                result.ReservingTime = ReservingTime;
+                result.BuildingAndFloor = BuildingAndFloor;
+                result.Classroom = Classroom;
             }
             else
             {
                 if (temp3.ReservingTimesCount + 1 > 3)
                 {
-                    result.SuccessfullyOrNot = false;
-                    result.Tips = "抱歉，每人每天只能预约3小时！";
+                    tips.SuccessfullyOrNot = false;
+                    tips.Tips = "抱歉，每人每天只能预约3小时！";
                 }
                 else
                 {
@@ -76,9 +87,14 @@ public class ReservingOperationAppservices : AbpController , ReservingOperationI
                         Classroom = Classroom,Name = Name,IDNumber = IDNumber,ReservingTime = reservingTime,ReservingWeekday = 
                             weekday,ReservingStatus = ReservingStatusEnum.HasReserved});
                     temp3.ReservingTimesCount++;
+                    result.ReservingStatus = ReservingStatusEnum.HasReserved;
+                    result.ReservingTime = ReservingTime;
+                    result.BuildingAndFloor = BuildingAndFloor;
+                    result.Classroom = Classroom;
                 }
             }
         }
+        result.ResultWithTip = tips;
         return result;
     }
 
@@ -160,7 +176,7 @@ public class ReservingOperationAppservices : AbpController , ReservingOperationI
         var tprt = record.ReservingTime.Split(" ");
         var ttp =await _reservingCapCountRepository.FindAsync(x=>
                 x.IDNumber.Equals(IDNumber) && x.Date.Equals(tprt[0]));
-        if(ttp.ReservingTimesCount.Equals(0))
+        if(!ttp.ReservingTimesCount.Equals(0))
             ttp.ReservingTimesCount --;
         await _reservingCapCountRepository.UpdateAsync(ttp);
         await _repository.UpdateAsync(record);

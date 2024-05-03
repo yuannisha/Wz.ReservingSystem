@@ -195,18 +195,30 @@ export default {
             formData.append('Classroom', this.form.classroom);
             formData.append('ReservingTime', this.form.date + ' ' + this.form.time + ' ' + this.form.week);
             var res = await reserving(formData)
-            if(res.successfullyOrNot)
+            if(res.resultWithTip.successfullyOrNot)
         {
           this.$message({
-                      message: res.tips,
+                      message: res.resultWithTip.tips,
                       type: "success"
                     })
+
+                    const storedObject = JSON.parse(localStorage.getItem('MyInformation'));
+                    console.log(storedObject)
+                    console.log(res)
+                    storedObject.buildingAndFloor = res.buildingAndFloor;
+                    storedObject.classroom = res.classroom;
+                    storedObject.reservingTime = res.reservingTime;
+                    storedObject.reservingStatus = res.reservingStatus;
+                    console.log(storedObject)
+                    localStorage.setItem('MyInformation', JSON.stringify(storedObject));
+                    const newstoredObject = JSON.parse(localStorage.getItem('MyInformation'));
+                    console.log(newstoredObject)
                     setTimeout(() => {
                       this.$router.push('/back');
                     }, 1500)
         }else{
           this.$message({
-                      message: res.tips,
+                      message: res.resultWithTip.tips,
                       type: "warning"
                     })
         }

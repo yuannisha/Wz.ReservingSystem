@@ -12,7 +12,7 @@
         <input type="text" v-model="form.name" placeholder="请输入姓名">
       </div>
       <div class="inputbox">
-        <input type="text" v-model="form.account" placeholder="请输入学号(20200032xxx)">
+        <input type="text" v-model="form.account" placeholder="请输入学号(2020032xxx)">
       </div>
       <div class="inputbox">
         <input type="text" v-model="form.classNumber" placeholder="请输入班级">

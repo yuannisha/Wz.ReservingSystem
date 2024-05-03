@@ -73,6 +73,8 @@ export default {
                 formData.append('id', rowData.id);
                 formData.append('iDNumber', this.idNumber);
                 var res = await cancleReserving(formData)
+
+
             //     this.tableData = res.getRecordingsOutputDto;
             //     this.tableData = res.getRecordingsOutputDto;
             //     let index = 1 ;
@@ -132,6 +134,13 @@ export default {
                 x.reservingStatus = x.reservingStatus === 0 ? "已预约" : "已取消";
             });
             console.log(this.tableData)
+            const lastItem = res[res.length - 1];
+            storedObject.buildingAndFloor = lastItem.buildingAndFloor;
+            storedObject.classroom = lastItem.classroom;
+            storedObject.reservingTime = lastItem.reservingTime;
+            storedObject.reservingStatus = lastItem.reservingStatus;
+            console.log(storedObject)
+            localStorage.setItem('MyInformation', JSON.stringify(storedObject));
         }
     }
 }

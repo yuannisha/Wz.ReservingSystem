@@ -22,5 +22,6 @@ public class ReservingSystemApplicationAutoMapperProfile : Profile
             dest.ReservingTime = src.ReservingTime;
         });
         CreateMap<ReservingInformation, Item>();
+        CreateMap<ReservingInformation, ReservingOutputDto>();
     }
 }

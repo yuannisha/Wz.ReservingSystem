@@ -8,7 +8,7 @@ namespace Wz.ReservingSystem.ReservingOperationIAppservice;
 
 public interface ReservingOperationIAppservices
 {
-    public Task<RegisterOrResetPasswordOutDto> Reserving(string Name,string IDNumber,
+    public Task<ReservingOutputDto> Reserving(string Name,string IDNumber,
         string BuildingAndFloor,string Classroom,string ReservingTime);
 
     public Task<Dictionary<string,List<TimeSlots>>> GetTimesByDate(string Date);
