@@ -134,7 +134,8 @@ export default {
                 x.reservingStatus = x.reservingStatus === 0 ? "已预约" : "已取消";
             });
             console.log(this.tableData)
-            const lastItem = res[res.length - 1];
+            const lastItem = res.getRecordingsOutputDto[res.getRecordingsOutputDto.length - 1];
+            console.log(lastItem)
             storedObject.buildingAndFloor = lastItem.buildingAndFloor;
             storedObject.classroom = lastItem.classroom;
             storedObject.reservingTime = lastItem.reservingTime;
